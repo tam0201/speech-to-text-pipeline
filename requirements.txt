@@ -1,0 +1,6 @@
+google-cloud-speech
+google-cloud-pubsub
+google-cloud-storage
+gcsfs
+functions-framework==3.*
+pydub
