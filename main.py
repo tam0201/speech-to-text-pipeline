@@ -30,21 +30,10 @@ def preprocess_audio(cloud_event):
         channels = audio.getnchannels()
         sample_rate = audio.getframerate()
 
-    # Convert stereo to mono using ffmpeg if necessary
-    if channels > 1:
-        mono_path = f'/tmp/mono_{file_name}'
-        pathlib.Path(mono_path).parent.mkdir(parents=True, exist_ok=True)
-        os.system(f'ffmpeg -i {local_path} -ac 1 {mono_path}')
-        processed_blob = bucket.blob(f'mono_{file_name}')
-        processed_blob.upload_from_filename(mono_path)
-        os.remove(mono_path)
-    else:
-        # If it's already mono, we don't change the file, just use the original filename
-        processed_blob = blob
-
     message = {
-        'file_name': processed_blob.name,
-        'sample_rate': sample_rate
+        'file_name': blob.name,
+        'sample_rate': sample_rate,
+        'n_channels': channels
     }
     
     message_data = json.dumps(message).encode('utf-8')
@@ -63,6 +52,7 @@ def transcribe_audio(cloud_event):
     message = json.loads(base64.b64decode(data).decode('utf-8'))
     file_name = message.get('file_name')
     sample_rate = int(message.get('sample_rate'))
+    n_channels = int(message.get('n_channels'))
     bucket_name = os.environ.get('BUCKET_NAME')
     gcs_uri = f'gs://{bucket_name}/{file_name}'
 
@@ -73,28 +63,37 @@ def transcribe_audio(cloud_event):
         encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
         sample_rate_hertz=sample_rate,
         language_code='en-US',
-        use_enhanced=True,
         model='medical',
-        enable_automatic_punctuation=True
+        audio_channel_count=n_channels,
+        enable_separate_recognition_per_channel=True,
     )
 
     operation = client.long_running_recognize(config=config, audio=audio)
     response = operation.result(timeout=300)
 
-    for result in response.results:
-        print(f'Transcript: {result.alternatives[0].transcript}')
-        transcript = result.alternatives[0].transcript
-        confidence = result.alternatives[0].confidence
-        pathlib.Path(f'/tmp/transcripts/{file_name}.txt').parent.mkdir(parents=True, exist_ok=True)
-        with open(f'/tmp/transcripts/{file_name}.txt', 'w') as f:
-            f.write(f'{transcript}\nConfidence: {confidence}')
+    transcripts = []  # Store all the transcripts
 
-    # upload the transcript to GCS
+    for i, result in enumerate(response.results):
+        alternative = result.alternatives[0]
+        transcript = alternative.transcript
+        confidence = alternative.confidence
+
+        transcripts.append(transcript)  # Add transcript to the list
+
+        print("-" * 20)
+        print(f"First alternative of result {i}")
+        print(f"Transcript: {transcript}")
+        print(f"Channel Tag: {result.channel_tag}")
+        print(f"Confidence: {confidence}")
+
+    # Save all the transcripts to a file
+    transcript_text = '\n'.join(transcripts)
+    transcript_file_path = f'/tmp/transcripts/{file_name}.txt'
+    
+    # Upload the transcript file to GCS
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
     blob = bucket.blob(f'transcripts/{file_name}.txt')
-    blob.upload_from_filename(f'/tmp/transcripts/{file_name}.txt')
-    os.remove(f'/tmp/transcripts/{file_name}.txt')
-     
-    
+    blob.upload_from_string(transcript_text)
+
      
