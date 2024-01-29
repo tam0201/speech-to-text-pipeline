@@ -17,7 +17,8 @@ class TextPreprocessor:
             self.nlp = spacy.load('en_core_web_sm')
         except OSError:
             spacy.cli.download('en_core_web_sm')
-
+            self.nlp = spacy.load('en_core_web_sm')
+            
         self.tokenizer = ToktokTokenizer()
         self.stopword_list = nltk.corpus.stopwords.words('english')
         

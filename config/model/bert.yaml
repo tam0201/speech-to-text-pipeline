@@ -5,8 +5,9 @@ model:
   learning_rate: 8e-5
   batch_size: 6
   target_names: ["Assessment", "Subjective", "Objective", "Plan"]
-  save_path: 'soap_bert_classifier.h5'
-
+  model_path: 'soap_bert_classifier.h5'
+  checkpoint_path: 'checkpoint'
+  
 preprocessing:
   html_stripping: true
   contraction_expansion: true

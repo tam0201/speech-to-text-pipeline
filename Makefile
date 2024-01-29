@@ -12,6 +12,9 @@ TOPIC_NAME := medical-audio-preprocess
 ENTRY_POINT_PREPROCESS := handle_audio_upload
 ENTRY_POINT_TRANSCRIBE := transcribe_audio_file
 
+install-deps:
+	p
+
 # Deployment Commands
 create-topic:
 	gcloud pubsub topics create $(TOPIC_NAME) --project=$(GCP_PROJECT)
@@ -60,7 +63,7 @@ delete-topic:
 
 delete-function:
 	gcloud functions delete $(PREPROCESS_FUNCTION_NAME) --project=$(GCP_PROJECT) --region=$(REGION)
-	gcloud functions delete $(TRANSCRIBE_FUNCTION_NAME) --project=$(GCP_PROJECT) --region=$(REGION)
+	gcloud functions delete $(TRANSCR IBE_FUNCTION_NAME) --project=$(GCP_PROJECT) --region=$(REGION)
 
 delete-firestore:
 	gcloud alpha firestore databases delete $(DATABASE_ID) --project=$(GCP_PROJECT)

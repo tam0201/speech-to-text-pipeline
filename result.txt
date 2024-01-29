@@ -1,0 +1,31 @@
+Epoch 1/10
+26/26 [==============================] - 124s 5s/step - loss: 1.2732 - accuracy: 0.4183 - val_loss: 1.1043 - val_accuracy: 0.4314
+Epoch 2/10
+26/26 [==============================] - 123s 5s/step - loss: 0.9374 - accuracy: 0.6209 - val_loss: 0.8404 - val_accuracy: 0.6667
+Epoch 3/10
+26/26 [==============================] - 120s 5s/step - loss: 0.6716 - accuracy: 0.7908 - val_loss: 0.9977 - val_accuracy: 0.5098
+Epoch 4/10
+26/26 [==============================] - 127s 5s/step - loss: 0.4863 - accuracy: 0.8627 - val_loss: 0.5987 - val_accuracy: 0.8039
+Epoch 5/10
+26/26 [==============================] - 119s 5s/step - loss: 0.3861 - accuracy: 0.8824 - val_loss: 0.7589 - val_accuracy: 0.7255
+Epoch 6/10
+26/26 [==============================] - 123s 5s/step - loss: 0.4892 - accuracy: 0.8497 - val_loss: 0.7330 - val_accuracy: 0.7451
+Epoch 7/10
+26/26 [==============================] - 120s 5s/step - loss: 0.1963 - accuracy: 0.9477 - val_loss: 0.8551 - val_accuracy: 0.7451
+Epoch 8/10
+26/26 [==============================] - 117s 5s/step - loss: 0.0761 - accuracy: 0.9869 - val_loss: 0.7556 - val_accuracy: 0.7647
+Epoch 9/10
+26/26 [==============================] - 119s 5s/step - loss: 0.0686 - accuracy: 0.9739 - val_loss: 0.8731 - val_accuracy: 0.7451
+Epoch 10/10
+26/26 [==============================] - 114s 4s/step - loss: 0.0410 - accuracy: 0.9869 - val_loss: 0.8693 - val_accuracy: 0.7451
+2/2 [==============================] - 15s 5s/step
+              precision    recall  f1-score   support
+
+  Assessment       1.00      0.68      0.81        19
+  Subjective       1.00      0.82      0.90        11
+   Objective       0.58      0.85      0.69        13
+        Plan       0.50      0.62      0.56         8
+
+    accuracy                           0.75        51
+   macro avg       0.77      0.74      0.74        51
+weighted avg       0.81      0.75      0.76        51

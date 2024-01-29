@@ -175,7 +175,7 @@ def summarize_transcript(cloud_event):
 
     logger.info(f"Summarizing transcript for {file_name}")
 
-    predictor = ktrain.get_predictor(os.path.join('/tmp', model_path))
+    predictor = ktrain.get_predictor(model_path)
     label_dict={}
     # label each sentence
     for sentence in transcript.split('\n'):

@@ -7,8 +7,12 @@ This project is designed to provide an automated pipeline for processing medical
 - In the business scenarios, the dataset could be much more larger than what i use here. Whenever i do test like do, i always try to find the dataset that as similar as possible in business scenarios. But for medical context, it nearly impossible
 - I found two paper that address the SOAP summarization issue. https://arxiv.org/pdf/2005.01795v3.pdf https://proceedings.mlr.press/v126/schloss20a/schloss20a.pdf. But the dataset they use is not available so it is hard to reproduce their results.
 
+## Dataset
+- Recordings: [https://oxiago.com/curavoice/dataset/10.5281.4279041/]
+- SOAP Notes: [https://huggingface.co/datasets/biomegix/soap-notes]
+
 ## Ensure medical terminology and nuance
-For speech-to-text API on GCP, it is possible to add custom vocabulary. I think it is very important to add medical terminology and nuance to the vocabulary.
+TBD 
 
 ## Project Overview
 
@@ -73,9 +77,9 @@ make cleanup
 This command will delete the Cloud Functions, Pub/Sub topic, and Cloud Storage bucket.
 
 ### SOAP Summarization
-
+The proposed process for doctor-patient conversation speech summarization: fnetune pretrain bart for summarization --> finetume pretrain bert for classifcation
 The SOAP Summarization algorithm contains two parts:
-1. The classifier, which is leverage Bio_ClinicalBert[emilyalsentzer/Bio_ClinicalBERT] model. The model then trained on the SOAP notes obtained from https://huggingface.co/datasets/biomegix/soap-notes using ktrain[https://github.com/amaiya/ktrain.git] library. The model outputs the probability of each sentence belonging to each of the SOAP categories. After predicting the probabilities, the sentences are then classified into the categories based on the highest probability. Because the dataset is only 100-ish sentences, the model is not very accurate. I can not find any other dataset that contains SOAP notes. The one of physio bank[https://physionet.org/content/mimiciii/1.4/] requires a license, so I can not use it. 
+1. The classifier, which is leverage Bio_ClinicalBert[emilyalsentzer/Bio_ClinicalBERT] model. The model then trained on the SOAP notes obtained from https://huggingface.co/datasets/biomegix/soap-notes using ktrain[https://github.com/amaiya/ktrain.git] library. The model outputs the probability of each sentence belonging to each of the SOAP categories. After predicting the probabilities, the sentences are then classified into the categories based on the highest probability. Because the dataset is only 800-ish sentences, the model is not very accurate. I can not find any other dataset that contains SOAP notes. The one of physio bank[https://physionet.org/content/mimiciii/1.4/] requires a license, so I can not use it. 
 
 2. 
  

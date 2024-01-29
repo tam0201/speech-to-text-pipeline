@@ -38,7 +38,9 @@ class BERTModelTrainer:
         learner = ktrain.get_learner(model, train_data=trn, val_data=val, batch_size=self.config.model.batch_size)
 
         # Train the model using the learning rate finder
-        learner.fit_onecycle(self.config.model.learning_rate, self.config.model.epochs)
+        learner.fit_onecycle(lr = self.config.model.learning_rate, 
+                             epochs = self.config.model.epochs,
+                             checkpoint_folder=self.config.model.checkpoint_path)
 
         # Validate the model
         learner.validate(class_names=self.config.model.target_names)
