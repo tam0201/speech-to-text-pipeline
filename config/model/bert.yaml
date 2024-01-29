@@ -1,0 +1,18 @@
+model:
+  name: 'emilyalsentzer/Bio_ClinicalBERT'
+  max_sequence_length: 500
+  epochs: 10
+  learning_rate: 8e-5
+  batch_size: 6
+  target_names: ["Assessment", "Subjective", "Objective", "Plan"]
+  save_path: 'soap_bert_classifier.h5'
+
+preprocessing:
+  html_stripping: true
+  contraction_expansion: true
+  accented_char_removal: true
+  text_lower_case: true
+  text_lemmatization: true
+  special_char_removal: true
+  stopword_removal: true
+  remove_digits: true

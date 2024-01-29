@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "speech-to-text-pipeline"
+version = "0.1.0"
+description = ""
+authors = ["tam.do"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+torch = "^2.1.2"
+google-cloud-speech = "^2.23.0"
+google-cloud-pubsub = "^2.19.0"
+google-cloud-storage = "^2.14.0"
+gcsfs = "^2023.12.2.post1"
+functions-framework = "^3.5.0"
+pydub = "^0.25.1"
+loguru = "^0.7.2"
+firebase-admin = "^6.4.0"
+spacy = "^3.7.2"
+ktrain = "^0.40.0"
+omegaconf = "^2.3.0"
+contractions = "^0.1.73"
+bs4 = "^0.0.2"
+nltk = "^3.8.1"
+tensorflow = "2.15"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
